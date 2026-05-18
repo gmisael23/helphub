@@ -242,7 +242,7 @@ function renderCards() {
       const actionButtons =
         currentRole === "professor"
           ? `<div class="card-actions"><button class="btn-delete" onclick="deleteCardLocal(${c.id})">Excluir</button></div>`
-          : `<a class="btn-download" href="${c.link}" target="_blank">Baixar conteúdo</a>`;
+          : `<a class="btn-download" href="#" onclick="window.location.reload(); return false;">Baixar conteúdo</a>`;
 
       return `
         <div class="content-card" data-materia="${c.materia}">
