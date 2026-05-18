@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelpHub - Projeto de Apoio Educacional</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="shortcut icon" href="imagens/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav>
+  <a class="logo" href="../index.html">
+    <img src="imagens/logo-helphub.jpg" alt="HelpHub" height="36">
+  </a>
+  <div class="nav-links">
+    <a href="../index.html">HOME</a>
+    <a onclick="showPage('conteudos')" id="nav-conteudos">CONTEÚDOS</a>
+    <a onclick="showPage('agenda')" id="nav-agenda">AGENDA</a>
+    <a onclick="showPage('vestibulares')" id="nav-vestibulares">VESTIBULARES</a>
+    <a onclick="showPage('contato')" id="nav-contato">CONTATO</a>
+    <a onclick="showPage('sobre')" id="nav-sobre">SOBRE</a>
+  </div>
+  <div class="nav-actions" id="nav-actions">
+    <a href="../login.html">
+      <button class="btn-login">LOGIN</button>
+    </a>    
+    <a href="../cadastro.html">
+      <button class="btn-participe">PARTICIPE</button>
+    </a> 
+  </div>
+</nav>
+
+<!-- ══════════════ CONTEÚDOS ══════════════ -->
+<div class="page" id="page-conteudos">
+  <div class="container">
+
+    <div class="page-header">
+      <div class="page-title">
+        <div class="page-title-icon">✦</div>
+        <h1>Trilhas de Aprendizagem</h1>
+      </div>
+      <p>Estatísticas reais do que mais cai em cada vestibular.</p>
+    </div>
+
+    <!-- Categorias -->
+    <div class="category-grid">
+      <div class="category-item" onclick="filterCards('matematica,fisica,quimica')">
+        <div class="cat-icon">📐</div>
+        <div class="cat-info">
+          <strong>Ciências Exatas</strong>
+          <span>Matemática · Física · Química</span>
+        </div>
+      </div>
+      <div class="category-item" onclick="filterCards('biologia,ecologia,fisiologia')">
+        <div class="cat-icon">🧬</div>
+        <div class="cat-info">
+          <strong>Ciências Biológicas</strong>
+          <span>Biologia · Ecologia · Fisiologia</span>
+        </div>
+      </div>
+      <div class="category-item" onclick="filterCards('redacao,literatura,gramatica')">
+        <div class="cat-icon">✏️</div>
+        <div class="cat-info">
+          <strong>Redação e Linguagens</strong>
+          <span>Redação · Literatura · Gramática</span>
+        </div>
+      </div>
+      <div class="category-item" onclick="filterCards('historia,geografia,filosofia,sociologia')">
+        <div class="cat-icon">🗺️</div>
+        <div class="cat-info">
+          <strong>Ciências Humanas</strong>
+          <span>História · Geografia · Filosofia · Sociologia</span>
+        </div>
+      </div>
+      <div class="category-item" onclick="filterCards('ingles,espanhol')">
+        <div class="cat-icon">🌐</div>
+        <div class="cat-info">
+          <strong>Idiomas</strong>
+          <span>Inglês · Espanhol</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Abas Aluno / Professor -->
+    <div class="role-tabs">
+      <button class="role-tab active" onclick="setRole('aluno')">👨‍🎓 Aluno</button>
+      <button class="role-tab" onclick="setRole('professor')">👩‍🏫 Professor</button>
+    </div>
+
+    <!-- Barra de ferramentas -->
+    <div class="toolbar">
+      <div class="filter-dropdown">
+        <button class="filter-btn" onclick="toggleDropdown()">
+          Todas as Matérias <span>▾</span>
+        </button>
+        <div class="dropdown-menu" id="filterDropdown">
+          <div class="dropdown-item selected" onclick="filterCards('all'); setFilterLabel('Todas as Matérias')">Todas as Matérias</div>
+          <div class="dropdown-item" onclick="filterCards('matematica'); setFilterLabel('Matemática')">Matemática</div>
+          <div class="dropdown-item" onclick="filterCards('fisica'); setFilterLabel('Física')">Física</div>
+          <div class="dropdown-item" onclick="filterCards('quimica'); setFilterLabel('Química')">Química</div>
+          <div class="dropdown-item" onclick="filterCards('biologia'); setFilterLabel('Biologia')">Biologia</div>
+          <div class="dropdown-item" onclick="filterCards('historia'); setFilterLabel('História')">História</div>
+          <div class="dropdown-item" onclick="filterCards('geografia'); setFilterLabel('Geografia')">Geografia</div>
+          <div class="dropdown-item" onclick="filterCards('filosofia'); setFilterLabel('Filosofia')">Filosofia</div>
+          <div class="dropdown-item" onclick="filterCards('redacao'); setFilterLabel('Redação')">Redação</div>
+          <div class="dropdown-item" onclick="filterCards('sociologia'); setFilterLabel('Sociologia')">Sociologia</div>
+          <div class="dropdown-item" onclick="filterCards('ingles'); setFilterLabel('Inglês')">Inglês</div>
+        </div>
+      </div>
+      <button class="add-btn" id="addBtn" onclick="toggleAddForm()" style="display:none;">
+        + Adicionar conteúdo
+      </button>
+    </div>
+
+    <!-- Aviso modo professor -->
+    <div class="professor-notice" id="professorNotice" style="display:none;">
+      <span>🛠️</span>
+      <p>Modo Professor ativo — você pode adicionar, editar e remover conteúdos.</p>
+    </div>
+
+    <!-- Formulário de adição (professor) -->
+    <div class="add-form" id="addForm">
+      <div class="form-title">➕ Novo Conteúdo</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Título</label>
+          <input type="text" id="fTitle" placeholder="Ex: Fundamentos de Álgebra" />
+        </div>
+        <div class="form-group">
+          <label>Matéria</label>
+          <select id="fMateria">
+            <option value="matematica">Matemática</option>
+            <option value="fisica">Física</option>
+            <option value="quimica">Química</option>
+            <option value="biologia">Biologia</option>
+            <option value="historia">História</option>
+            <option value="geografia">Geografia</option>
+            <option value="filosofia">Filosofia</option>
+            <option value="redacao">Redação</option>
+            <option value="sociologia">Sociologia</option>
+            <option value="ingles">Inglês</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Descrição</label>
+          <textarea id="fDesc" rows="3" placeholder="Descreva o conteúdo..."></textarea>
+        </div>
+        <div class="form-group full">
+          <label>Link do arquivo (PDF / Drive)</label>
+          <input type="text" id="fLink" placeholder="https://..." />
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="toggleAddForm()">Cancelar</button>
+        <button class="btn-submit" onclick="addCard()">Publicar conteúdo</button>
+      </div>
+    </div>
+
+    <!-- Grid de cards -->
+    <div class="cards-grid" id="cardsGrid"></div>
+
+  </div>
+</div>
+
+<!-- ══════════════ VESTIBULARES ══════════════ -->
+<div class="page" id="page-vestibulares">
+  <div class="container">
+
+    <div class="page-header">
+      <h1 style="font-family:'Nunito',sans-serif; font-size:2rem; font-weight:900; color:var(--primary); margin-bottom:4px;">
+        Vestibulares
+      </h1>
+      <p style="color:var(--gray-400); font-size:0.85rem;">Vestibulares procurados pelos nossos alunos</p>
+    </div>
+
+    <div class="vestibulares-grid">
+
+      <!-- UNICAMP -->
+      <div class="vestibular-card">
+        <div class="vest-logo">
+          <img src="imagens/unicamp-logo.jpeg" alt="Unicamp" style="max-height:70px; object-fit:contain;">
+        </div>
+        <div class="vest-title">UNICAMP</div>
+        <div class="vest-desc">Foco em análise crítica, leitura de imagens e textos contemporâneos.</div>
+        <div class="vest-date">29 e 30 Novembro</div>
+        <div class="vest-footer">
+          <div class="vest-source">
+            <div class="vest-source-icon">🎓</div>
+            <div class="vest-source-info">
+              <strong>UNICAMP</strong>
+              <span>Campinas</span>
+            </div>
+          </div>
+          <a class="link-ver-todos" href="#">ver todos</a>
+        </div>
+      </div>
+
+      <!-- Provão Paulista -->
+      <div class="vestibular-card">
+        <div class="vest-logo">
+         <img src="imagens/etec-logo.jpeg" alt="Provão Paulista" style="max-height:70px; object-fit:contain;">
+        </div>
+        <div class="vest-title">Provão Paulista</div>
+        <div class="vest-desc">Simulação fiel ao formato digital adotado pela Secretaria de Educação de SP.</div>
+        <div class="vest-date">4 e 12 de Novembro</div>
+        <div class="vest-footer">
+          <div class="vest-source">
+            <div class="vest-source-icon">🎓</div>
+            <div class="vest-source-info">
+              <strong>Provão Paulista</strong>
+              <span>Educação de SP</span>
+            </div>
+          </div>
+          <a class="link-ver-todos" href="#">ver todos</a>
+        </div>
+      </div>
+
+      <!-- FUVEST / USP -->
+      <div class="vestibular-card">
+        <div class="vest-logo">
+         <img src="imagens/fuvest-logo.jpeg" alt="FUVEST USP" style="max-height:70px; object-fit:contain;">
+        </div>
+        <div class="vest-title">FUVEST / USP</div>
+        <div class="vest-desc">Questões de múltipla escolha com alto rigor acadêmico e interdisciplinaridade.</div>
+        <div class="vest-date">15/11 (Fase I) · 13/12 e 14/12 (Fase II)</div>
+        <div class="vest-footer">
+          <div class="vest-source">
+            <div class="vest-source-icon">🎓</div>
+            <div class="vest-source-info">
+              <strong>FUVEST</strong>
+              <span>Nacional</span>
+            </div>
+          </div>
+          <a class="link-ver-todos" href="#">ver todos</a>
+        </div>
+      </div>
+
+      <!-- ENEM -->
+      <div class="vestibular-card">
+        <div class="vest-logo">
+         <img src="imagens/enem-logo.jpeg" alt="ENEM" style="max-height:70px; object-fit:contain;">
+        </div>
+        <div class="vest-title">Exame Nacional do Ensino Médio</div>
+        <div class="vest-desc">Principal portal de entrada para o ensino superior no Brasil, avaliando competências em quatro áreas do conhecimento e redação.</div>
+        <div class="vest-date">8 e 15 de Novembro</div>
+        <div class="vest-footer">
+          <div class="vest-source">
+            <div class="vest-source-icon">🎓</div>
+            <div class="vest-source-info">
+              <strong>ENEM</strong>
+              <span>Governo de SP</span>
+            </div>
+          </div>
+          <a class="link-ver-todos" href="#">ver todos</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Aviso -->
+    <div class="notice-box">
+      <span>⚠️</span>
+      <p>
+        <strong>ATENÇÃO:</strong> Fique atento aos editais oficiais. As datas podem sofrer alterações
+        conforme o cronograma de cada instituição.
+      </p>
+    </div>
+
+    <!-- Dicas de Estudo -->
+    <div class="dicas-section">
+      <h2 class="dicas-title">Dicas para Redação <span style="cursor:pointer;"onclick="showPage('redacao')">AQUI</span>
+</h2>
+      <div class="dicas-grid">
+        <div class="dica-card">
+          <div class="dica-icon">📅</div>
+          <h4>Crie um cronograma</h4>
+          <p>Distribua as matérias ao longo da semana, reservando mais tempo para os tópicos mais cobrados em cada vestibular.</p>
+        </div>
+        <div class="dica-card">
+          <div class="dica-icon">📝</div>
+          <h4>Resolva questões anteriores</h4>
+          <p>Pratique com provas dos anos anteriores para entender o estilo e os temas mais recorrentes de cada banca.</p>
+        </div>
+        <div class="dica-card">
+          <div class="dica-icon">🎯</div>
+          <h4>Foque nos pontos mais cobrados</h4>
+          <p>Use as trilhas de aprendizagem do HelpHub para identificar os assuntos com maior peso em cada vestibular.</p>
+        </div>
+        <div class="dica-card">
+          <div class="dica-icon">✍️</div>
+          <h4>Pratique redação semanalmente</h4>
+          <p>A redação tem peso significativo em praticamente todos os vestibulares. Escreva ao menos um texto por semana.</p>
+        </div>
+        <div class="dica-card">
+          <div class="dica-icon">😴</div>
+          <h4>Durma bem antes das provas</h4>
+          <p>Uma boa noite de sono melhora significativamente a memória e a concentração durante as avaliações.</p>
+        </div>
+        <div class="dica-card">
+          <div class="dica-icon">🤝</div>
+          <h4>Estude em grupo</h4>
+          <p>Grupos de estudo ajudam a esclarecer dúvidas e a absorver o conteúdo de diferentes perspectivas.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════ REDAÇÃO (hub de seleção) ══════════════ -->
+<div class="page" id="page-redacao">
+  <div class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="page-title-icon">✍️</div>
+        <h1>Dicas de Estudo: Estruturação de Redação.</h1>
+      </div>
+    </div>
+    <p style="color:#666; margin-bottom:28px;">Guia completo para você dominar a estrutura das principais provas. Selecione um exame abaixo para ver as dicas específicas.</p>
+    <div class="enem-exams-grid">
+      <div class="enem-exam-card" onclick="showPage('redacao-enem')">
+        <img src="imagens/enem-logo.jpeg" alt="ENEM">
+        <span>ENEM</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-fuvest')">
+        <img src="imagens/fuvest-logo.jpeg" alt="FUVEST/USP">
+        <span>FUVEST/USP</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-unicamp')">
+        <img src="imagens/unicamp-logo.jpeg" alt="UNICAMP">
+        <span>UNICAMP</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-provao')">
+        <img src="imagens/etec-logo.jpeg" alt="Provão Paulista">
+        <span>Provão Paulista</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ REDAÇÃO ENEM ══════════════ -->
+<div class="page" id="page-redacao-enem">
+  <div class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="page-title-icon">📝</div>
+        <h1>Dicas de Estudo: Estruturação de Redação.</h1>
+      </div>
+    </div>
+    <p style="color:#666; margin-bottom:28px;">Guia completo para você dominar a estrutura das principais provas. Selecione um exame abaixo para ver as dicas específicas.</p>
+    <div class="enem-exams-grid">
+      <div class="enem-exam-card active">
+        <img src="imagens/enem-logo.jpeg" alt="ENEM">
+        <span>ENEM</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-fuvest')">
+        <img src="imagens/fuvest-logo.jpeg" alt="FUVEST/USP">
+        <span>FUVEST/USP</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-unicamp')">
+        <img src="imagens/unicamp-logo.jpeg" alt="UNICAMP">
+        <span>UNICAMP</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-provao')">
+        <img src="imagens/etec-logo.jpeg" alt="Provão Paulista">
+        <span>Provão Paulista</span>
+      </div>
+    </div>
+    <h2 style="font-weight:800; font-size:1.4rem; margin:32px 0 20px;">Estrutura Passo a Passo: ENEM</h2>
+    <div class="enem-layout">
+      <div class="enem-steps">
+        <div class="enem-step">
+          <div class="enem-step-num">01</div>
+          <div class="enem-step-info">
+            <h3>Introdução</h3>
+            <p>Apresentar o tema, repertório sociocultural e tese com dois problemas claramente definidos.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">02</div>
+          <div class="enem-step-info">
+            <h3>Desenvolvimento 1</h3>
+            <p>Aprofundamento no Problema 1: Causas, consequências e relação com a realidade brasileira.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">03</div>
+          <div class="enem-step-info">
+            <h3>Desenvolvimento 2</h3>
+            <p>Aprofundamento no Problema 2: Complementar a argumentação com novos dados ou citações.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">04</div>
+          <div class="enem-step-info">
+            <h3>Proposta de Intervenção</h3>
+            <p>Agente, Ação, Meio/Modo, Efeito e Detalhamento (5 elementos).</p>
+          </div>
+        </div>
+      </div>
+      <div class="enem-sidebar">
+        <div class="enem-tip-box">
+          <h3>💡 DICA DE OURO!</h3>
+          <p>"Ideal para o ENEM: Começar com uma alusão histórica (Ex: Revolução Industrial) para contextualizar temas de tecnologia."</p>
+        </div>
+        <div class="enem-checklist">
+          <h3>Checklist de Revisão</h3>
+          <ul>
+            <li>Letra legível e margens respeitadas</li>
+            <li>Uso de no mínimo 3 conectivos diferentes</li>
+            <li>Citação de repertório externo validado</li>
+            <li>Ausência de gírias e repetições excessivas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ REDAÇÃO FUVEST ══════════════ -->
+<div class="page" id="page-redacao-fuvest">
+  <div class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="page-title-icon">🏛️</div>
+        <h1>Dicas de Estudo: Estruturação de Redação.</h1>
+      </div>
+    </div>
+    <p style="color:#666; margin-bottom:28px;">Guia completo para você dominar a estrutura das principais provas. Selecione um exame abaixo para ver as dicas específicas.</p>
+    <div class="enem-exams-grid">
+      <div class="enem-exam-card" onclick="showPage('redacao-enem')">
+        <img src="imagens/enem-logo.jpeg" alt="ENEM">
+        <span>ENEM</span>
+      </div>
+      <div class="enem-exam-card active">
+        <img src="imagens/fuvest-logo.jpeg" alt="FUVEST/USP">
+        <span>FUVEST/USP</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-unicamp')">
+        <img src="imagens/unicamp-logo.jpeg" alt="UNICAMP">
+        <span>UNICAMP</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-provao')">
+        <img src="imagens/etec-logo.jpeg" alt="Provão Paulista">
+        <span>Provão Paulista</span>
+      </div>
+    </div>
+    <h2 style="font-weight:800; font-size:1.4rem; margin:32px 0 20px;">Estrutura Passo a Passo: FUVEST / USP</h2>
+    <div class="enem-layout">
+      <div class="enem-steps">
+        <div class="enem-step">
+          <div class="enem-step-num">01</div>
+          <div class="enem-step-info">
+            <h3>Introdução</h3>
+            <p>Contextualização ampla. Definição clara de conceitos e posicionamento acadêmico.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">02</div>
+          <div class="enem-step-info">
+            <h3>Desenvolvimento 1</h3>
+            <p>Análise Dialética: Discutir uma perspectiva do tema com rigor lógico e conceitos teóricos.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">03</div>
+          <div class="enem-step-info">
+            <h3>Desenvolvimento 2</h3>
+            <p>Síntese Crítica: Relacionar a teoria à prática de forma sofisticada, evitando senso comum.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">04</div>
+          <div class="enem-step-info">
+            <h3>Conclusão</h3>
+            <p>Retomada da tese com uma reflexão final que consolide a complexidade do tema.</p>
+          </div>
+        </div>
+      </div>
+      <div class="enem-sidebar">
+        <div class="enem-tip-box">
+          <h3>💡 DICA DE OURO!</h3>
+          <p>"A FUVEST valoriza dissertações que usem sociologia e filosofia para explicar o 'porquê' das coisas."</p>
+        </div>
+        <div class="enem-checklist">
+          <h3>Checklist de Revisão</h3>
+          <ul>
+            <li>Letra legível e margens respeitadas</li>
+            <li>Uso de no mínimo 3 conectivos diferentes</li>
+            <li>Citação de repertório externo validado</li>
+            <li>Ausência de gírias e repetições excessivas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ REDAÇÃO UNICAMP ══════════════ -->
+<div class="page" id="page-redacao-unicamp">
+  <div class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="page-title-icon">🎓</div>
+        <h1>Dicas de Estudo: Estruturação de Redação.</h1>
+      </div>
+    </div>
+    <p style="color:#666; margin-bottom:28px;">Guia completo para você dominar a estrutura das principais provas. Selecione um exame abaixo para ver as dicas específicas.</p>
+    <div class="enem-exams-grid">
+      <div class="enem-exam-card" onclick="showPage('redacao-enem')">
+        <img src="imagens/enem-logo.jpeg" alt="ENEM">
+        <span>ENEM</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-fuvest')">
+        <img src="imagens/fuvest-logo.jpeg" alt="FUVEST/USP">
+        <span>FUVEST/USP</span>
+      </div>
+      <div class="enem-exam-card active">
+        <img src="imagens/unicamp-logo.jpeg" alt="UNICAMP">
+        <span>UNICAMP</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-provao')">
+        <img src="imagens/etec-logo.jpeg" alt="Provão Paulista">
+        <span>Provão Paulista</span>
+      </div>
+    </div>
+    <h2 style="font-weight:800; font-size:1.4rem; margin:32px 0 20px;">Estrutura Passo a Passo: UNICAMP</h2>
+    <div class="enem-layout">
+      <div class="enem-steps">
+        <div class="enem-step">
+          <div class="enem-step-num">01</div>
+          <div class="enem-step-info">
+            <h3>Proposta e Leitura</h3>
+            <p>Leitura atenta dos textos motivadores e identificação da proposta de redação e gênero solicitado.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">02</div>
+          <div class="enem-step-info">
+            <h3>Desenvolvimento</h3>
+            <p>Construção do argumento central com uso dos textos de apoio como referência, sem copiar trechos.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">03</div>
+          <div class="enem-step-info">
+            <h3>Repertório Cultural</h3>
+            <p>Inserção de referências literárias, históricas ou filosóficas que sustentem a argumentação.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">04</div>
+          <div class="enem-step-info">
+            <h3>Conclusão</h3>
+            <p>Síntese crítica com posicionamento claro e coerente com os argumentos desenvolvidos.</p>
+          </div>
+        </div>
+      </div>
+      <div class="enem-sidebar">
+        <div class="enem-tip-box">
+          <h3>💡 DICA DE OURO!</h3>
+          <p>"A UNICAMP exige domínio do gênero textual pedido. Identifique se é artigo, carta, resenha ou conto antes de começar."</p>
+        </div>
+        <div class="enem-checklist">
+          <h3>Checklist de Revisão</h3>
+          <ul>
+            <li>Gênero textual respeitado</li>
+            <li>Textos motivadores utilizados como apoio</li>
+            <li>Argumentação coerente e bem estruturada</li>
+            <li>Ausência de cópias dos textos da prova</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ REDAÇÃO PROVÃO PAULISTA ══════════════ -->
+<div class="page" id="page-redacao-provao">
+  <div class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="page-title-icon">📋</div>
+        <h1>Dicas de Estudo: Estruturação de Redação.</h1>
+      </div>
+    </div>
+    <p style="color:#666; margin-bottom:28px;">Guia completo para você dominar a estrutura das principais provas. Selecione um exame abaixo para ver as dicas específicas.</p>
+    <div class="enem-exams-grid">
+      <div class="enem-exam-card" onclick="showPage('redacao-enem')">
+        <img src="imagens/enem-logo.jpeg" alt="ENEM">
+        <span>ENEM</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-fuvest')">
+        <img src="imagens/fuvest-logo.jpeg" alt="FUVEST/USP">
+        <span>FUVEST/USP</span>
+      </div>
+      <div class="enem-exam-card" onclick="showPage('redacao-unicamp')">
+        <img src="imagens/unicamp-logo.jpeg" alt="UNICAMP">
+        <span>UNICAMP</span>
+      </div>
+      <div class="enem-exam-card active">
+        <img src="imagens/etec-logo.jpeg" alt="Provão Paulista">
+        <span>Provão Paulista</span>
+      </div>
+    </div>
+    <h2 style="font-weight:800; font-size:1.4rem; margin:32px 0 20px;">Estrutura Passo a Passo: Provão Paulista</h2>
+    <div class="enem-layout">
+      <div class="enem-steps">
+        <div class="enem-step">
+          <div class="enem-step-num">01</div>
+          <div class="enem-step-info">
+            <h3>Introdução</h3>
+            <p>Apresentação direta do tema com tese clara e objetiva, sem rodeios.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">02</div>
+          <div class="enem-step-info">
+            <h3>Desenvolvimento 1</h3>
+            <p>Primeiro argumento com exemplos concretos do cotidiano e da realidade paulista.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">03</div>
+          <div class="enem-step-info">
+            <h3>Desenvolvimento 2</h3>
+            <p>Segundo argumento reforçando a tese com dados, fatos ou contraposição de ideias.</p>
+          </div>
+        </div>
+        <div class="enem-step">
+          <div class="enem-step-num">04</div>
+          <div class="enem-step-info">
+            <h3>Conclusão</h3>
+            <p>Retomada da tese com proposta de solução ou reflexão final sobre o tema abordado.</p>
+          </div>
+        </div>
+      </div>
+      <div class="enem-sidebar">
+        <div class="enem-tip-box">
+          <h3>💡 DICA DE OURO!</h3>
+          <p>"O Provão valoriza clareza e objetividade. Evite textos longos demais; seja direto e bem fundamentado."</p>
+        </div>
+        <div class="enem-checklist">
+          <h3>Checklist de Revisão</h3>
+          <ul>
+            <li>Letra legível e margens respeitadas</li>
+            <li>Tese clara desde a introdução</li>
+            <li>Argumentos com exemplos concretos</li>
+            <li>Conclusão coerente com o desenvolvimento</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ AGENDA ══════════════ -->
+<div class="page" id="page-agenda">
+  <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
+  
+  <div class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="page-title-icon">📅</div>
+        <h1>Agendas Disponíveis</h1>
+      </div>
+      <p style="color:var(--gray-400); font-size:0.85rem; margin-top:4px;">Inscreva-se nas monitorias e aulas exclusivas.</p>
+    </div>
+
+    <main class="agendas-container" id="agendasGrid">
+        <p>Carregando agendas...</p>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ CONTATO ══════════════ -->
+<div class="page" id="page-contato">
+    <div class="contact-banner" style="background-color: #34b3e8; color: white; text-align: center; padding: 40px 20px; margin-bottom: 30px; border-radius: 12px;">
+        <h1 style="font-size: 2.5rem; font-weight: 800;">Entre em Contato</h1>
+        <p>Tem dúvidas ou sugestões? Adoraríamos ouvir você.</p>
+    </div>
+
+    <div class="container" style="display: flex; gap: 40px; align-items: flex-start; padding-bottom: 50px;">
+        <section class="info-sidebar" style="flex: 1;">
+            <div class="info-card-contato">
+                <strong>✉ E-mail</strong>
+                <span>contato@helphub.com.br</span>
+            </div>
+            <div class="info-card-contato">
+                <strong>🕒 Resposta em</strong>
+                <span>até 48 horas úteis</span>
+            </div>
+            
+            <div class="faq-section-contato">
+                <h3>Perguntas Frequentes</h3><br>
+                <ul style="list-style: none;">
+                    <li><strong>As aulas são gratuitas?</strong><p>Sim, o projeto é 100% gratuito.</p></li>
+                    <li><strong>Como sou voluntário?</strong><p>Faça o cadastro na área de parceiros.</p></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="form-container-contato" style="flex: 1.5; border: 1px solid #e2e8f0; padding: 30px; border-radius: 20px;">
+            <form>
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input type="text" placeholder="Seu nome" style="width:100%; padding:10px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;">
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" placeholder="seu@email.com" style="width:100%; padding:10px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;">
+                </div>
+                <div class="form-group">
+                    <label>Mensagem</label>
+                    <textarea placeholder="Escreva aqui..." style="width:100%; height:150px; padding:10px; border-radius:8px; border:1px solid #ccc;"></textarea>
+                </div>
+                <button type="button" class="btn-participe" style="width: 100%; margin-top: 15px;">Enviar Mensagem</button>
+            </form>
+        </section>
+    </div>
+</div>
+
+<!-- ══════════════ SOBRE ══════════════ -->
+<!-- ══════════════ SOBRE ══════════════ -->
+<div class="page" id="page-sobre">
+
+  <!-- Hero -->
+  <section style="text-align:center; padding:64px 6% 48px; background:linear-gradient(135deg,#02c4ff30 0%,#eef4ff 60%,#f0f8ff 100%);">
+    <h1 style="font-size:2.4rem; font-weight:900; color:#1E293B; margin-bottom:16px; line-height:1.2;">
+      Educação que <span style="color:#009EE2;">Transforma</span>
+    </h1>
+    <p style="max-width:720px; margin:0 auto 36px; color:#555; font-size:15px; line-height:1.8;">
+      O HelpHub nasceu com o objetivo de não permitir que jovens tenham seu potencial limitado por falta de acesso a uma educação de qualidade. Conectamos voluntários apaixonados por ensinar a alunos que precisam de apoio.
+    </p>
+    <div style="max-width:900px; margin:0 auto;">
+      <img src="imagens/Trabalho em equipe.jpg" alt="Equipe unida" style="width:100%; border-radius:16px; object-fit:cover; max-height:380px; box-shadow:0 8px 32px rgba(0,158,226,0.12);">
+    </div>
+  </section>
+
+  <!-- Missão -->
+  <section style="display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; max-width:1100px; margin:0 auto; padding:80px 24px;">
+    <div>
+      <h2 style="font-size:1.9rem; font-weight:800; color:#1E293B; margin-bottom:18px;">Nossa Missão</h2>
+      <p style="color:#555; font-size:15px; line-height:1.8;">
+        Queremos tornar o aprendizado mais acessível, humano e colaborativo. Nosso objetivo é construir uma comunidade baseada em solidariedade e crescimento mútuo, mostrando que ninguém precisa estudar sozinho para alcançar seus objetivos.
+      </p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div style="background:#C2E3F7; padding:32px 20px; border-radius:16px; text-align:center; font-size:15px; font-weight:600; color:#333;">
+        <strong style="display:block; font-size:2rem; font-weight:900; margin-bottom:4px;">100%</strong>Gratuito
+      </div>
+      <div style="background:#FEF4D1; padding:32px 20px; border-radius:16px; text-align:center; font-size:15px; font-weight:600; color:#333;">
+        <strong style="display:block; font-size:2rem; font-weight:900; margin-bottom:4px;">10+</strong>Materiais
+      </div>
+      <div style="background:#F0D9FF; padding:32px 20px; border-radius:16px; text-align:center; font-size:15px; font-weight:600; color:#333;">
+        <strong style="display:block; font-size:2rem; font-weight:900; margin-bottom:4px;">5</strong>Voluntários
+      </div>
+      <div style="background:#C3EBC4; padding:32px 20px; border-radius:16px; text-align:center; font-size:15px; font-weight:600; color:#333;">
+        <strong style="display:block; font-size:2rem; font-weight:900; margin-bottom:4px;">∞</strong>Possibilidades
+      </div>
+    </div>
+  </section>
+
+  <!-- Valores -->
+  <section style="background:#f5fbff; padding:72px 24px; text-align:center;">
+    <h2 style="font-size:2rem; font-weight:800; color:#1E293B; margin-bottom:8px;">Nossos Valores</h2>
+    <p style="color:#888; font-size:14px; margin-bottom:40px;">O que nos guia a cada decisão</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px; max-width:1100px; margin:0 auto;">
+      <div style="background:white; border:1px solid #cce8f8; border-radius:16px; padding:28px 24px; text-align:left; transition:box-shadow 0.2s, transform 0.2s;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,158,226,0.12)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+        <div style="font-size:28px; margin-bottom:12px;">💖</div>
+        <h3 style="font-size:1rem; font-weight:800; color:#1E293B; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Solidariedade</h3>
+        <p style="font-size:13px; color:#555; line-height:1.7;">Acreditamos que educação de qualidade é um direito de todos, independente da condição financeira.</p>
+      </div>
+      <div style="background:white; border:1px solid #cce8f8; border-radius:16px; padding:28px 24px; text-align:left; transition:box-shadow 0.2s, transform 0.2s;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,158,226,0.12)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+        <div style="font-size:28px; margin-bottom:12px;">🎯</div>
+        <h3 style="font-size:1rem; font-weight:800; color:#1E293B; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Impacto Real</h3>
+        <p style="font-size:13px; color:#555; line-height:1.7;">Cada aula ofertada representa uma oportunidade concreta de mudança na trajetória de um jovem.</p>
+      </div>
+      <div style="background:white; border:1px solid #cce8f8; border-radius:16px; padding:28px 24px; text-align:left; transition:box-shadow 0.2s, transform 0.2s;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,158,226,0.12)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+        <div style="font-size:28px; margin-bottom:12px;">✅</div>
+        <h3 style="font-size:1rem; font-weight:800; color:#1E293B; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Compromisso</h3>
+        <p style="font-size:13px; color:#555; line-height:1.7;">Voluntários verificados e comprometidos com a missão de transformar vidas pela educação.</p>
+      </div>
+      <div style="background:white; border:1px solid #cce8f8; border-radius:16px; padding:28px 24px; text-align:left; transition:box-shadow 0.2s, transform 0.2s;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,158,226,0.12)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+        <div style="font-size:28px; margin-bottom:12px;">🎓</div>
+        <h3 style="font-size:1rem; font-weight:800; color:#1E293B; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Excelência</h3>
+        <p style="font-size:13px; color:#555; line-height:1.7;">Conteúdo de qualidade, simulados inteligentes e trilhas de aprendizagem estruturadas.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  © 2026 Projeto de Apoio Educacional – Universidade Cidade de São Paulo
+</footer>
+
+<!-- Toast de notificação -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+<script>
+  // Exibe saudação se o usuário estiver logado
+  const usuario = JSON.parse(sessionStorage.getItem("usuario") || "null");
+  if (usuario) {
+    const nav = document.getElementById("nav-actions");
+    nav.innerHTML = `
+      <span style="font-weight:600; color:#1a73e8; font-size:15px;">
+        Olá, ${usuario.nome.split(" ")[0]}!
+      </span>
+      <button class="btn-login" onclick="logout()" style="margin-left:12px;">SAIR</button>
+    `;
+  }
+  function logout() {
+    sessionStorage.removeItem("usuario");
+    window.location.href = "../docs/index.html";
+  }
+</script>
+</body>
+</html>

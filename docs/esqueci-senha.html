@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="stylesheet" href="navbar.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" href="Imagens/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="helphub.css"/>
+  <title>HelpHub – Esqueci minha senha</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="logo" href="index.html">
+        <img src="Imagens/logoHH.png" alt="HelpHub" height="36">
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="active">HOME</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-conteudos">CONTEÚDOS</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-agenda">AGENDA</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-vestibulares">VESTIBULARES</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-contato">CONTATO</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-sobre">SOBRE</a>
+      </div>
+      <div class="nav-actions">
+        <a href="login.html">
+          <button class="btn-login">LOGIN</button>
+        </a>
+        <a href="cadastro.html">
+          <button class="btn-participe">PARTICIPE</button>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-body">
+    <p class="page-hint">Não é cadastrado? <a href="cadastro.html">Cadastre-se AQUI!</a></p>
+    <div class="form-card">
+      <div class="card-title">Esqueci minha senha</div>
+      <div class="form-group">
+        <label>Seu E-mail ou Telefone</label>
+        <input type="text" placeholder="Digite o seu Email ou número de telefone">
+      </div>
+      <button class="btn-submit" onclick="window.location.href='verificar-codigo.html'">Recuperar Senha</button>
+      <div class="back-link"><a href="login.html">← Voltar para o login</a></div>
+    </div>
+  </div>
+
+  <footer>© 2026 Projeto de Apoio Educacional – Universidade Cidade de São Paulo</footer>
+</body>
+</html>

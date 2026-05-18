@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="navbar.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="Imagens/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="helphub.css" />
+  <title>HelpHub – Cadastro</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <a class="logo" href="index.html">
+        <img src="Imagens/logoHH.png" alt="HelpHub" height="36">
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="active">HOME</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-conteudos">CONTEÚDOS</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-agenda">AGENDA</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-vestibulares">VESTIBULARES</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-contato">CONTATO</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-sobre">SOBRE</a>
+      </div>
+      <div class="nav-actions">
+        <a href="login.html">
+          <button class="btn-login">LOGIN</button>
+        </a>
+        <button class="btn-participe">PARTICIPE</button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-body">
+    <p class="page-hint">Já é cadastrado? <a href="login.html">Faça login AQUI!</a></p>
+    <div class="form-card form-card-wide">
+      <div class="tabs">
+        <div class="tab active" id="tab-aluno" onclick="switchTab('aluno')">Cadastro Aluno</div>
+        <div class="tab" id="tab-voluntario" onclick="switchTab('voluntario')">Cadastro Voluntário</div>
+      </div>
+  <div>
+        <div id="form-aluno">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nome Completo <span>*</span></label>
+        <input type="text" name="nome" placeholder="Digite o seu nome" required>
+      </div>
+      <div class="form-group">
+        <label>Telefone <span>*</span></label>
+        <input type="tel" name="telefone" placeholder="(88) 99999-9999" oninput="mascaraTelefone(this)" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>E-mail <span>*</span></label>
+        <input type="email" name="email" placeholder="Seu@email.com" required>
+      </div>
+      <div class="form-group">
+        <label>Senha <span>*</span></label>
+        <input type="password" name="senha" placeholder="Crie uma senha" required>
+      </div>
+    </div>
+    <div class="form-row" style="grid-template-columns: 100px 1fr; gap: 16px;">
+      <div class="form-group">
+        <label>Idade <span>*</span></label>
+        <input type="number" name="idade" placeholder="16" required>
+      </div>
+    </div>
+
+    <span class="chips-label">Pretende prestar quais vestibulares?</span>
+    <div class="chips" id="chips-vestibulares">
+  <div class="chip" onclick="toggleChip(this)" data-value="1">Provão Paulista</div>
+  <div class="chip" onclick="toggleChip(this)" data-value="2">UNICAMP</div>
+  <div class="chip" onclick="toggleChip(this)" data-value="3">Vestibulinho Etec</div>
+  <div class="chip" onclick="toggleChip(this)" data-value="4">FUVEST</div>
+  <div class="chip" onclick="toggleChip(this)" data-value="5">Outro</div>
+</div>
+
+    <p class="section-label">Dados do responsável (opcional)</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nome do responsável</label>
+        <input type="text" name="responsavel_nome" placeholder="Digite o nome do seu responsável">
+      </div>
+      <div class="form-group">
+        <label>Telefone do responsável</label>
+        <input type="tel" name="responsavel_telefone" placeholder="(88) 99999-9999" oninput="mascaraTelefone(this)">
+      </div>
+    </div>
+    <p id="msg-aluno" style="font-size:14px; margin:4px 0; display:none;"></p>
+    <button type="button" class="btn-submit" id="btnAluno">Enviar Cadastro</button>
+  </div>
+
+        <!-- VOLUNTÁRIO -->
+        <div id="form-voluntario" style="display:none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nome Completo <span>*</span></label>
+              <input type="text" id="v-nome" placeholder="Digite o seu nome">
+            </div>
+            <div class="form-group">
+              <label>Telefone <span>*</span></label>
+              <input type="tel" id="v-telefone" placeholder="(88) 99999-9999" oninput="mascaraTelefone(this)">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>E-mail <span>*</span></label>
+              <input type="email" id="v-email" placeholder="Seu@email.com">
+            </div>
+            <div class="form-group">
+              <label>Senha <span>*</span></label>
+              <input type="password" id="v-senha" placeholder="Crie uma senha">
+              <p style="font-size:10px; color:#888; margin-top:4px;">*Mínimo 7 caracteres</p>
+            </div>
+          </div>
+
+          <span class="chips-label">Matérias que pode ensinar <span style="color:#e74c3c">*</span></span>
+          <div class="chips" id="chips-materias">
+            <div class="chip" onclick="toggleChip(this)">Matemática</div>
+            <div class="chip" onclick="toggleChip(this)">Português</div>
+            <div class="chip" onclick="toggleChip(this)">Inglês</div>
+            <div class="chip" onclick="toggleChip(this)">Ciências</div>
+            <div class="chip" onclick="toggleChip(this)">História</div>
+            <div class="chip" onclick="toggleChip(this)">Geografia</div>
+            <div class="chip" onclick="toggleChip(this)">Física</div>
+            <div class="chip" onclick="toggleChip(this)">Química</div>
+            <div class="chip" onclick="toggleChip(this)">Biologia</div>
+            <div class="chip" onclick="toggleChip(this)">Redação</div>
+          </div>
+
+          <span class="chips-label">Disponibilidade <span style="color:#e74c3c">*</span></span>
+          <div class="chips" id="chips-disponibilidade">
+            <div class="chip" onclick="toggleChip(this)">Segunda</div>
+            <div class="chip" onclick="toggleChip(this)">Terça</div>
+            <div class="chip" onclick="toggleChip(this)">Quarta</div>
+            <div class="chip" onclick="toggleChip(this)">Quinta</div>
+            <div class="chip" onclick="toggleChip(this)">Sexta</div>
+            <div class="chip" onclick="toggleChip(this)">Sábado</div>
+          </div>
+
+          <div class="form-row single" style="margin-top:8px;">
+            <div class="form-group">
+              <label>Sobre Você</label>
+              <textarea id="v-sobre" placeholder="Conte um pouco sobre sua experiência e motivação..."></textarea>
+            </div>
+          </div>
+          <p id="msg-voluntario" style="font-size:14px; margin:4px 0; display:none;"></p>
+          <button type="button" class="btn-submit" id="btnVoluntario">Enviar Cadastro</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2026 Projeto de Apoio Educacional – Universidade Cidade de São Paulo</footer>
+
+  <script>
+    const API = "http://127.0.0.1:8000";
+
+function switchTab(type) {
+  document.getElementById('form-aluno').style.display = type === 'aluno' ? 'block' : 'none';
+  document.getElementById('form-voluntario').style.display = type === 'voluntario' ? 'block' : 'none';
+  document.getElementById('tab-aluno').className = 'tab' + (type === 'aluno' ? ' active' : '');
+  document.getElementById('tab-voluntario').className = 'tab' + (type === 'voluntario' ? ' active' : '');
+}
+
+function toggleChip(el) {
+  el.classList.toggle('selected');
+}
+
+function mascaraTelefone(input) {
+  let v = input.value.replace(/\D/g, '').slice(0, 11);
+  if (v.length <= 10) {
+    v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+  } else {
+    v = v.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
+  }
+  input.value = v;
+}
+
+function showMsg(id, text, ok) {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.style.color = ok ? '#27ae60' : '#e74c3c';
+  el.style.display = 'block';
+}
+
+// ── CADASTRO ALUNO ──
+document.getElementById('btnAluno').addEventListener('click', async () => {
+  const nome      = document.querySelector('input[name="nome"]').value.trim();
+  const telefone  = document.querySelector('input[name="telefone"]').value.trim();
+  const email     = document.querySelector('input[name="email"]').value.trim();
+  const senha     = document.querySelector('input[name="senha"]').value;
+  const idade     = Number(document.querySelector('input[name="idade"]').value);
+  const resp_nome = document.querySelector('input[name="responsavel_nome"]').value.trim();
+  const resp_tel  = document.querySelector('input[name="responsavel_telefone"]').value.trim();
+
+  const vestibulares = [...document.querySelectorAll('#chips-vestibulares .chip.selected')]
+                        .map(el => Number(el.dataset.value));
+
+  if (!nome || !telefone || !email || !senha || !idade) {
+    showMsg('msg-aluno', 'Preencha todos os campos obrigatórios.', false);
+    return;
+  }
+  if (senha.length < 7) {
+    showMsg('msg-aluno', 'A senha deve ter no mínimo 7 caracteres.', false);
+    return;
+  }
+
+  try {
+    const resp = await fetch(`${API}/cadastrar/aluno`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, telefone, email, senha, idade, vestibulares,
+                             responsavel_nome: resp_nome || null,
+                             responsavel_telefone: resp_tel || null })
+    });
+    const data = await resp.json();
+    if (!resp.ok) { showMsg('msg-aluno', data.detail || 'Erro no cadastro.', false); return; }
+    showMsg('msg-aluno', data.message, true);
+    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+  } catch {
+    showMsg('msg-aluno', 'Não foi possível conectar ao servidor.', false);
+  }
+});
+
+// ── CADASTRO VOLUNTÁRIO ──
+document.getElementById('btnVoluntario').addEventListener('click', async () => {
+  const nome     = document.getElementById('v-nome').value.trim();
+  const telefone = document.getElementById('v-telefone').value.trim();
+  const email    = document.getElementById('v-email').value.trim();
+  const senha    = document.getElementById('v-senha').value;
+  const sobre    = document.getElementById('v-sobre').value.trim();
+
+  const materias = [...document.querySelectorAll('#chips-materias .chip.selected')]
+                    .map(el => el.textContent);
+  const disponibilidade = [...document.querySelectorAll('#chips-disponibilidade .chip.selected')]
+                           .map(el => el.textContent);
+
+  if (!nome || !telefone || !email || !senha) {
+    showMsg('msg-voluntario', 'Preencha todos os campos obrigatórios.', false);
+    return;
+  }
+  if (senha.length < 7) {
+    showMsg('msg-voluntario', 'A senha deve ter no mínimo 7 caracteres.', false);
+    return;
+  }
+
+  try {
+    const resp = await fetch(`${API}/cadastrar/voluntario`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, telefone, email, senha, materias, disponibilidade, sobre: sobre || null })
+    });
+    const data = await resp.json();
+    if (!resp.ok) { showMsg('msg-voluntario', data.detail || 'Erro no cadastro.', false); return; }
+    showMsg('msg-voluntario', data.message, true);
+    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+  } catch {
+    showMsg('msg-voluntario', 'Não foi possível conectar ao servidor.', false);
+  }
+});
+  </script>
+</body>
+
+</html>

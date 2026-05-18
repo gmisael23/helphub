@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="navbar.css"/>
+  <link rel="shortcut icon" href="Imagens/favicon.ico" type="image/x-icon">
+  <title>HelpHub – Aprender juntos, evoluir sempre.</title>
+  <head>
+    <link rel="stylesheet" href="helphub.css">
+    </head>
+</head>
+<body>
+
+  <header>
+    <nav>
+  <a class="logo" href="index.html">
+    <img src="Imagens/logoHH.png" alt="HelpHub" height="36">
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="active">HOME</a>
+    <a href="agendas_consultas_vestibulares_etc/home.html#page-conteudos">CONTEÚDOS</a>
+    <a href="agendas_consultas_vestibulares_etc/home.html#page-agenda">AGENDA</a>
+    <a href="agendas_consultas_vestibulares_etc/home.html#page-vestibulares">VESTIBULARES</a>
+    <a href="agendas_consultas_vestibulares_etc/home.html#page-contato">CONTATO</a>
+    <a href="agendas_consultas_vestibulares_etc/home.html#page-sobre">SOBRE</a>
+  </div>
+  <div class="nav-actions" id="nav-actions">
+  <a href="login.html">
+    <button class="btn-login">LOGIN</button>
+  </a>    
+  <a href="cadastro.html">
+    <button class="btn-participe">PARTICIPE</button>
+  </a>  
+  </div>
+</nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Aprender juntos,<br>evoluir sempre.</h1>
+      <p>Conectamos alunos e voluntários para transformar o aprendizado em uma experiência colaborativa, acessível e inspiradora.</p>
+      <div class="hero-cta">
+        <button class="btn-hero" onclick="window.location.href='cadastro.html'">Quero participar</button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="Imagens/estudantesdiversos.png" alt="Estudantes diversos">
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="intro">
+      <h2>COMO <span>FUNCIONA</span></h2>
+      <p>Veja como é simples começar a aprender ou a ajudar outros alunos na plataforma.</p>
+    </section>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-body">
+          <h3>Faça seu cadastro</h3>
+          <p>Se inscreva como aluno ou voluntário em poucos minutos, escolhendo suas matérias e disponibilidade.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📅</div>
+        <div class="card-body">
+          <h3>Escolha na agenda</h3>
+          <p>Acesse a agenda e veja os horários disponíveis para agendar sua aula conforme sua disponibilidade.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <div class="card-body">
+          <h3>Acesse materiais</h3>
+          <p>Baixe apostilas, exercícios e resumos gratuitos de todas as matérias, a qualquer hora.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎓</div>
+        <div class="card-body">
+          <h3>Aprenda e cresça</h3>
+          <p>Participe das aulas, tire dúvidas e evolua com o apoio de voluntários dedicados.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="values">
+    <p class="values-title">Nossos Valores</p>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">🤝</div>
+        <div class="value-name">Solidariedade</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🌱</div>
+        <div class="value-name">Impacto Real</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🎯</div>
+        <div class="value-name">Compromisso</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">⭐</div>
+        <div class="value-name">Excelência</div>
+      </div>
+    </div>
+    <div class="values-btn-wrap">
+      <a href="agendas_consultas_vestibulares_etc/home.html#page-sobre" class="btn-values">Conheça o Projeto →</a>
+    </div>
+  </section>
+
+  <footer>© 2026 Projeto de Apoio Educacional – Universidade Cidade de São Paulo</footer>
+
+  <script>
+    // Exibe saudação se o usuário estiver logado
+    const usuario = JSON.parse(sessionStorage.getItem("usuario") || "null");
+    if (usuario) {
+      const nav = document.getElementById("nav-actions");
+      nav.innerHTML = `
+        <span style="font-weight:600; color:#1a73e8; font-size:15px;">
+          Olá, ${usuario.nome.split(" ")[0]}!
+        </span>
+        <button class="btn-login" onclick="logout()" style="margin-left:12px;">SAIR</button>
+      `;
+    }
+    function logout() {
+      sessionStorage.removeItem("usuario");
+      window.location.reload();
+    }
+  </script>
+</body>
+</html>

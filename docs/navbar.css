@@ -1,0 +1,106 @@
+/* ── VARIÁVEIS NECESSÁRIAS ── */
+:root {
+  --primary: #0BAFFF;
+  --primary-dark: #0090d9;
+  --navy: #1B3A5C;
+  --white: #ffffff;
+  --gray-100: #F1F5F9;
+  --gray-200: #E2E8F0;
+  --gray-600: #475569;
+  --gray-800: #1E293B;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* ── ESTILIZAÇÃO DA NAVBAR ── */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 0 48px;
+  height: 64px;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--navy);
+  text-decoration: none;
+  margin-right: 8px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.nav-links a {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.nav-links a:hover { 
+  background: var(--gray-100); 
+  color: var(--gray-800); 
+}
+
+.nav-links a.active { 
+  color: var(--primary); 
+}
+
+.nav-actions { 
+  display: flex; 
+  gap: 10px; 
+  margin-left: auto; 
+}
+
+/* ── BOTÕES DA NAVBAR ── */
+.btn-login {
+  font-size: 0.85rem; 
+  font-weight: 700;
+  color: var(--primary);
+  background: none; 
+  border: none;
+  cursor: pointer; 
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-login:hover { 
+  background: #e8f6ff; 
+}
+
+.btn-participe {
+  font-size: 0.85rem; 
+  font-weight: 700;
+  color: white;
+  background: var(--primary);
+  border: none;
+  cursor: pointer; 
+  padding: 8px 20px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-participe:hover { 
+  background: var(--primary-dark); 
+}

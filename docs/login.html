@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="stylesheet" href="navbar.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" href="Imagens/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="helphub.css"/>
+  <title>HelpHub – Login</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="logo" href="index.html">
+        <img src="Imagens/logoHH.png" alt="HelpHub" height="36">
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="active">HOME</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-conteudos">CONTEÚDOS</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-agenda">AGENDA</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-vestibulares">VESTIBULARES</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-contato">CONTATO</a>
+        <a href="agendas_consultas_vestibulares_etc/home.html#page-sobre">SOBRE</a>
+      </div>
+      <div class="nav-actions">
+        <a href="login.html">
+          <button class="btn-login">LOGIN</button>
+        </a>
+        <a href="cadastro.html">
+          <button class="btn-participe">PARTICIPE</button>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-body">
+    <p class="page-hint">Não é cadastrado? <a href="cadastro.html">Cadastre-se AQUI!</a></p>
+    <div class="form-card">
+      <div class="card-title">Login</div>
+      <div class="form-group">
+  <label>E-mail <span>*</span></label>
+  <div class="input-wrap">
+    <span class="icon">✉️</span>
+    <input type="email" id="email" placeholder="Digite o seu e-mail" required>
+  </div>
+</div>
+      <div class="form-group">
+        <label>Senha <span>*</span></label>
+        <div class="input-wrap">
+          <span class="icon">🔒</span>
+          <input type="password" id="senha" placeholder="Digite a sua senha">
+        </div>
+        <div class="forgot"><a href="esqueci-senha.html">Esqueci minha senha</a></div>
+      </div>
+      <p id="msg-login" style="color:#e74c3c; font-size:14px; margin:0; display:none;"></p>
+      <button type="button" class="btn-submit" id="btnEntrar">Entrar</button>
+    </div>
+  </div>
+
+  <footer>© 2026 Projeto de Apoio Educacional – Universidade Cidade de São Paulo</footer>
+
+  <script>
+    const API = "http://127.0.0.1:8000";
+
+    document.getElementById("btnEntrar").addEventListener("click", async () => {
+      const email = document.getElementById("email").value.trim();
+      const senha = document.getElementById("senha").value;
+      const msg   = document.getElementById("msg-login");
+
+      if (!email || !senha) {
+        msg.textContent = "Preencha e-mail e senha.";
+        msg.style.color = "#e74c3c";
+        msg.style.display = "block";
+        return;
+      }
+
+      try {
+        const resp = await fetch(`${API}/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, senha })
+        });
+
+        const data = await resp.json();
+
+        if (!resp.ok) {
+          msg.textContent = data.detail || "Erro ao fazer login.";
+          msg.style.color = "#e74c3c";
+          msg.style.display = "block";
+          return;
+        }
+
+        // Salva o usuário na sessão e redireciona para a home
+        sessionStorage.setItem("usuario", JSON.stringify(data.usuario));
+        msg.textContent = data.message;
+        msg.style.color = "#27ae60";
+        msg.style.display = "block";
+
+        setTimeout(() => { window.location.href = "index.html"; }, 1000);
+
+      } catch (err) {
+        msg.textContent = "Não foi possível conectar ao servidor. Verifique se o back-end está rodando.";
+        msg.style.color = "#e74c3c";
+        msg.style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>
