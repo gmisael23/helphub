@@ -131,6 +131,7 @@ function showPage(name) {
 }
 
 // ── MODO ALUNO / PROFESSOR ──
+// ── MODO ALUNO / PROFESSOR ──
 function setRole(role) {
   currentRole = role;
 
@@ -141,14 +142,18 @@ function setRole(role) {
     tab.classList.toggle("active", isActive);
   });
 
+  // Mostra/esconde o botão de "+" e o aviso
   document.getElementById("addBtn").style.display =
     role === "professor" ? "flex" : "none";
   document.getElementById("professorNotice").style.display =
     role === "professor" ? "flex" : "none";
 
+  // 👇 NOVA LINHA AQUI 👇
+  // Fecha o formulário de adição se o usuário trocar de aba
+  document.getElementById("addForm").classList.remove("open");
+
   renderCards();
 }
-
 // ── FILTRO ──
 function filterCards(filter) {
   currentFilter = filter;
