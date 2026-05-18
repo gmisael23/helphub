@@ -75,7 +75,17 @@ let agendas = [
     vagas_atuais: 12,
     vagas_totais: 30,
   },
-];
+  {
+    id: 4,
+    materia: "Filosofia",
+    titulo: "Introdução a Filosofia",
+    data: "28-05-2026",
+    horario: "18:00",
+    voluntario: "Ana Costa",
+    vagas_atuais: 27,
+    vagas_totais: 30,
+  },
+];  
 
 let nextId = 7;
 let currentRole = "aluno";
@@ -270,7 +280,7 @@ function renderAgendas() {
       return `
         <article class="card">
             <div class="card-header">
-                <span class="badge ${classeCor}">${a.materia}</span>
+                <span class="badge badge-${classeCor}">${a.materia}</span>
                 <span class="vagas">👥 ${a.vagas_atuais}/${a.vagas_totais}</span>
             </div>
             <h2>${a.titulo}</h2>
